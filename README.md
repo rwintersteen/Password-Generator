@@ -1,1 +1,2 @@
-# Password-Generator
+Making my own edits to pre-made code to a webpage that generates random passwords allowing the user to customize their own password. When prompted, the user will encounter multiple prompts that will ask the user how they would like to generate their password. Such prompts will ask how many characters, between 8-128, would like to be used and if uppercase, lowercase, and special characters would like to be used in the generated password. 
+This specific activity is geared towards writing specific functions that meet all the criteria for the new random password and the user will have their new generated password displayed once following through all the alerted prompts.
