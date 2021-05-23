@@ -1,63 +1,52 @@
 // Assign button to generate password
 const generateBtn = document.querySelector("#generate");
 
+// Assign constants to character types for user to choose from
+const uppercaseCharCodes = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+const lowercaseCharCodes = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+const numbersCharCodes = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+const specialCharCodes = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '?', '/', '<', '>']
 
 // Create function to prompt user to enter number of characters for password
-function getPasswordLength(){
-    const  passwordLength = 0;
-    while(passwordLength  > 128 || passwordLength  < 8){
-      passwordLength = prompt('Please enter a valid password length (8 to 128 characters)');
+// Using confirmation prompts, user will OK or Cancel to select character types 
+function generateRandomPassword() {
+    const charPoolArray = [];
+    var resultingPassword = "";
+    const passwordLength = prompt('How many characters do you want your password to contain? Strong passwords contain at least 8-128 characters!')
+    if(passwordLength <8 || passwordLength > 128){
+        alert('Please select a number of characters between 8-128 characters.')
+        return;
     }
-      return passwordLength;
-}
-
-// Assign constants to character types for user to choose from - using ASCII character codes
-const UPPERCASEcharCodes = arrayFromLowToHigh(65, 90)
-const LOWERCASEcharCodes = arrayFromLowToHigh(97, 122)
-const NUMBERScharCodes = arrayFromLowToHigh(48, 57)
-const SPECIALcharCodes = arrayFromLowToHigh(33, 47).concat(
-    arrayFromLowToHigh(58, 64).concat(
-).concat(
-    arrayFromLowToHigh(91, 96)
-).concat(
-    arrayFromLowToHigh(123, 126)
-))
-
-// Create function to allow users to select which character types will be used in generated password
-function getPasswordCharTypes(){
-    const includeUppercase = confirm('Would you like to include Upper case characters?')
-    const includeLowercase = confirm('Would you like to include Lower case characters?')
-    const includeNumbers = confirm('Would you like to include numerical characters?')
-    const includeSymbols = confirm('Would you like to include special (!,@,*,&) characters?')
-        if(includeUppercase == true) {
-            includeUppercase + UPPERCASEcharCodes
+    // Each confirmation to push character type into a character pool array
+        if(confirm('Would you like to include Upper case characters?')){
+            charPoolArray.push(uppercaseCharCodes);
         }
-        if(includeLowercase == true) {
-            includeLowercase + LOWERCASEcharCodes
+        if(confirm('Would you like to include Lower case characters?')){
+            charPoolArray.push(lowercaseCharCodes);
         }
-        if(includeNumbers == true) {
-            includeNumbers + NUMBERScharCodes
+        if(confirm('Would you like to include numerical characters?')){
+            charPoolArray.push(numbersCharCodes);
         }
-        if(includeSymbols == true) {
-            includeSymbols + SPECIALcharCodes
+        if(confirm('Would you like to include special (!,@,*,&) characters?')){
+            charPoolArray.push(specialCharCodes);
         }
-}
-
-// Create function to assign ASCII character ranges into an array
-function arrayFromLowToHigh(low, high) {
-    const array = []
-    for (let i = low; i <= high; i++) {
-        array.push(i)
+        // Loop if user does not select a number between 8-128
+        if(charPoolArray.length===0){
+            alert('At least one character type must be selected! Please try again!');
+            return;
+        } else {
+        for(var i = 0; i < passwordLength; i++){
+            var randomCharType = Math.floor(Math.random()*charPoolArray.length);
+            const selectedCharType = charPoolArray[randomCharType];
+            var randomChar = Math.floor(Math.random()*selectedCharType.length);
+            resultingPassword += selectedCharType[randomChar];
+        }
     }
-    return array
+    // Resulting password displayed in password textarea
+    document.getElementById("password").textContent = resultingPassword
+    return resultingPassword;
 }
+  
 
-// Create function to combine all functions and write password for user
-function writePassword() {
-    const password = writePassword(passwordLength, includeUppercase, includeLowercase, includeNumbers, includeSymbols);
-    String.fromCharCode(65)
-    const passwordText = document.querySelector("#password");
-    passwordText.value = password;
-}
-
-generateBtn.addEventListener("click", writePassword);
+  // Add on click event listener to begin prompting user
+generateBtn.addEventListener("click", generateRandomPassword);
